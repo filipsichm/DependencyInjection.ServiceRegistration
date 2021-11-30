@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "MGidEpOBlsPoutWX5VV+Dl2Cf/yiV8lzo2aNFghK2YrDPwfGw50rmDl8KVdlcRe7h2dgnHwXkCiepF9g6CBM+Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\fsichman\\source\\repos\\DependencyInjection.ServiceRegistration\\DependencyInjection.ServiceRegistration\\DependencyInjection.ServiceRegistration.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\fsichman\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\fsichman\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
