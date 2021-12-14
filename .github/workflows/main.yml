@@ -27,22 +27,23 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    upload-artifact:
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
+  upload-artifact:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
      steps:
-    - uses: actions/checkout@v2
+     - uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
+     - name: Setup .NET
+       uses: actions/setup-dotnet@v1
+       with:
+         dotnet-version: 5.0.x
 
-    - name: Pack
-      run: dotnet pack -c Release DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration.csproj
+     - name: Pack
+       run: dotnet pack -c Release DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration.csproj
       
-    - uses: actions/upload-artifact@v2
-      with:
-        name: nuget_artifact
-        path: DependencyInjection.ServiceRegistration/bin/Release/ 
+     - uses: actions/upload-artifact@v2
+       with:
+         name: nuget_artifact
+         path: DependencyInjection.ServiceRegistration/bin/Release/ 
