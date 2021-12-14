@@ -2,8 +2,9 @@ name: workflow
 
 on:
   push:
+    branches-ignore: [ main ]
   pull_request:
-    branches: [ '**' ]
+    branches-ignore: [ '**' ]
  
 jobs:
   build:
