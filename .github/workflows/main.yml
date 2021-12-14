@@ -28,9 +28,9 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: upload-artifact:nuget
-      run: dotnet pack -c Release DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration.csproj
+      run: dotnet pack -c Release DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration.csproj
       
     - uses: actions/upload-artifact@v2
       with:
         name: nuget_artifact
-        path: DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration/bin/Release/ 
+        path: DependencyInjection.ServiceRegistration/bin/Release/ 
