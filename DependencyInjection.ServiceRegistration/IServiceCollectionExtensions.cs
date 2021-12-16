@@ -18,7 +18,7 @@ namespace DependencyInjection.ServiceRegistration
             var definedTypes = assemblies.SelectMany(x => x.DefinedTypes);
             foreach (var type in definedTypes)
             {
-                if (!type.IsAbstract && type.GetCustomAttribute(typeof(RegisterServiceAttribute), true) is RegisterServiceAttribute registerServiceAttribute && registerServiceAttribute != null)
+                if (!type.IsAbstract && !type.IsDefined(typeof(DoNotRegisterServiceAttribute), true) && type.GetCustomAttribute(typeof(RegisterServiceAttribute), true) is RegisterServiceAttribute registerServiceAttribute && registerServiceAttribute != null)
                 {
                     services.Add(registerServiceAttribute.ServiceType, type, registerServiceAttribute.ServiceLifetime);
                 }

@@ -4,31 +4,41 @@ using System.Collections.Generic;
 
 namespace DependencyInjection.ServiceRegistration.TestAssembly.GenericClasses
 {
-    public interface IGenericService<T> { }
-
-    public class GenericServiceA : IGenericService<A> { }
-
-    public class GenericServiceB : IGenericService<B> { }
-
-    public interface IGenericService<T1, T2>
+    public interface IGenericService<T>
     {
-        T2 Process(T1 input);
+        Type Run();
     }
 
-    public abstract class AbstractGenericBase<T1, T2> : IGenericService<T1, T2>
+    public class GenericServiceA : IGenericService<A>
     {
-        public T2 Process(T1 input)
-        {
-            throw new NotImplementedException();
-        }
+        public Type Run() => GetType();
     }
 
-    public class GenericServiceAB : AbstractGenericBase<A, B> { }
+    public class GenericServiceB : IGenericService<B>
+    {
+        public Type Run() => GetType();
+    }
+
+    public abstract class AbstractGenericBase<T1, T2>
+    {
+        public abstract Type Run();
+    }
+
+    public class GenericServiceAB : AbstractGenericBase<A, B>
+    {
+        public override Type Run() => GetType();
+    }
 
     [DoNotRegisterService]
-    public class GenericServiceBA : AbstractGenericBase<B, A> { }
+    public class GenericServiceBA : AbstractGenericBase<B, A>
+    {
+        public override Type Run() => GetType();
+    }
 
-    public class GenericServiceCEnumerableInt : AbstractGenericBase<C, IEnumerable<int>> { }
+    public class GenericServiceCEnumerableInt : AbstractGenericBase<C, IEnumerable<int>>
+    {
+        public override Type Run() => GetType();
+    }
 
     public class B { }
 

@@ -2,7 +2,7 @@
 
 namespace DependencyInjection.ServiceRegistration.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class DoNotRegisterServiceAttribute : Attribute
     {
     }

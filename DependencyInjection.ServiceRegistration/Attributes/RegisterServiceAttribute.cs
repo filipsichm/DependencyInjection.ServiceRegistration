@@ -3,7 +3,7 @@ using System;
 
 namespace DependencyInjection.ServiceRegistration.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class RegisterServiceAttribute : Attribute
     {
         public Type ServiceType { get; }
