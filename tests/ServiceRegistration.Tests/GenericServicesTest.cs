@@ -22,7 +22,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(IGenericService<>));
+            _sut.AddMultiple(typeof(IGenericService<>));
             var assertion = _sut.Select(x => new { x.ImplementationType, x.ServiceType });
 
             // Assert
@@ -47,7 +47,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(IGenericService<>));
+            _sut.AddMultiple(typeof(IGenericService<>));
             var requiredService = _sut.BuildServiceProvider().GetRequiredService<IGenericService<A>>();
 
             // Assert
@@ -62,7 +62,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(AbstractGenericBase<,>));
+            _sut.AddMultiple(typeof(AbstractGenericBase<,>));
             var assertion = _sut.Select(x => new { x.ImplementationType, x.ServiceType });
 
             // Assert
@@ -87,7 +87,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(AbstractGenericBase<,>));
+            _sut.AddMultiple(typeof(AbstractGenericBase<,>));
             var assertion = _sut.Select(x => new { x.ImplementationType, x.ServiceType });
 
             // Assert

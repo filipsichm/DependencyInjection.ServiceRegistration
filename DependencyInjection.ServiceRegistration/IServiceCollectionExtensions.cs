@@ -8,6 +8,10 @@ namespace DependencyInjection.ServiceRegistration
 {
     public static class IServiceCollectionExtensions
     {
+        /// <summary>
+        ///    Adds classes decorated with <see cref="RegisterServiceAttribute" /> as a service to the specified <see cref="IServiceCollection" />.
+        ///    If no assembly is specified in <paramref name="assemblies" /> the calling assembly is used.
+        /// </summary>
         public static IServiceCollection RegisterServices(this IServiceCollection services, params Assembly[] assemblies)
         {
             if (assemblies.Length == 0)
@@ -27,7 +31,12 @@ namespace DependencyInjection.ServiceRegistration
             return services;
         }
 
-        public static IServiceCollection AddServiceGroup(this IServiceCollection services, Type serviceType, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        /// <summary>
+        ///    Registers multiple service instances of the same service type specified in <paramref name="serviceType" />;
+        ///    all classes that inherit or implement the service type are added to <see cref="IServiceCollection" /> as an implementation type for the specified service type.
+        ///    The addition is not made for a class decorated with <see cref="DoNotRegisterServiceAttribute" />.
+        /// </summary>
+        public static IServiceCollection AddMultiple(this IServiceCollection services, Type serviceType, ServiceLifetime lifetime = ServiceLifetime.Scoped)
         {
             foreach (var type in Assembly.GetAssembly(serviceType).DefinedTypes)
             {
@@ -70,21 +79,17 @@ namespace DependencyInjection.ServiceRegistration
             return services;
         }
 
-        public static IServiceCollection Add(
+        private static IServiceCollection Add(
            this IServiceCollection services, Type serviceType, Type implementationType, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped
         )
         {
-            switch (serviceLifetime)
+            return serviceLifetime switch
             {
-                case ServiceLifetime.Transient:
-                    return services.AddTransient(serviceType, implementationType);
-                case ServiceLifetime.Scoped:
-                    return services.AddScoped(serviceType, implementationType);
-                case ServiceLifetime.Singleton:
-                    return services.AddSingleton(serviceType, implementationType);
-                default:
-                    return services;
-            }
+                ServiceLifetime.Transient => services.AddTransient(serviceType, implementationType),
+                ServiceLifetime.Scoped => services.AddScoped(serviceType, implementationType),
+                ServiceLifetime.Singleton => services.AddSingleton(serviceType, implementationType),
+                _ => services,
+            };
         }
     }
 }

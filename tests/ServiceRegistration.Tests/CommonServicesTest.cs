@@ -22,7 +22,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(IService));
+            _sut.AddMultiple(typeof(IService));
             var serviceCollection = _sut.BuildServiceProvider().GetRequiredService<IEnumerable<IService>>();
 
             var assertion = serviceCollection.Select(x => x.Run());
@@ -45,7 +45,7 @@ namespace DependencyInjection.ServiceRegistration.Tests
             // Arrange
 
             // Act
-            _sut.AddServiceGroup(typeof(AbstractBase));
+            _sut.AddMultiple(typeof(AbstractBase));
             var serviceCollection = _sut.BuildServiceProvider().GetRequiredService<IEnumerable<AbstractBase>>();
 
             var assertion = serviceCollection.Select(x => x.Run());
