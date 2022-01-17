@@ -1,6 +1,6 @@
 name: release
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       tag_name:
@@ -8,15 +8,52 @@ on:
         required: true
 
 jobs:
-  deploy:
+  build:
     if: contains('refs/heads/main', github.ref)
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
+
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  upload-artifact:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Pack
+        run: dotnet pack -c Release DependencyInjection.ServiceRegistration/DependencyInjection.ServiceRegistration.csproj -p:Version='${{ github.event.inputs.tag_name }}'
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nuget_artifact
+          path: DependencyInjection.ServiceRegistration/bin/Release/
+
+  release:
+    needs: [ upload-artifact ]
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: download-artifact
         uses: actions/download-artifact@v1.0.0
         with:
@@ -37,8 +74,6 @@ jobs:
           release_name: Release ${{ github.event.inputs.tag_name }}
 
       - name: Publish
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_AUTH_TOKEN}}
         run: | 
           dotnet nuget add source --username filipsichm --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/filipsichm/index.json"
           dotnet nuget push nuget_artifact/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
