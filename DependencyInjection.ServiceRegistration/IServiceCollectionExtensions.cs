@@ -79,17 +79,7 @@ namespace DependencyInjection.ServiceRegistration
             return services;
         }
 
-        private static IServiceCollection Add(
-           this IServiceCollection services, Type serviceType, Type implementationType, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped
-        )
-        {
-            return serviceLifetime switch
-            {
-                ServiceLifetime.Transient => services.AddTransient(serviceType, implementationType),
-                ServiceLifetime.Scoped => services.AddScoped(serviceType, implementationType),
-                ServiceLifetime.Singleton => services.AddSingleton(serviceType, implementationType),
-                _ => services,
-            };
-        }
+        private static void Add(this IServiceCollection services, Type serviceType, Type implementationType, ServiceLifetime serviceLifetime)
+            => services.Add(new ServiceDescriptor(serviceType, implementationType, serviceLifetime));
     }
 }

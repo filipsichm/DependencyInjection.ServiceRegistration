@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <PackageId>DependencyInjection.ServiceRegistration</PackageId>
+    <Authors>filipsichm</Authors>
     <PackageTags>dependencyinjection di ioc</PackageTags>
     <Description>Extension for Microsoft.Extensions.DependencyInjection to automatically register services of the specified type to IServiceCollection.</Description>
     <RepositoryUrl>https://github.com/filipsichm/DependencyInjection.ServiceRegistration</RepositoryUrl>
